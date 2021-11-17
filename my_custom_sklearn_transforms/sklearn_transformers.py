@@ -12,6 +12,10 @@ class DropColumns(BaseEstimator, TransformerMixin):
     def transform(self, X):
         # Primeiro realizamos a cópia do dataframe 'X' de entrada
         data = X.copy()
+        data['CHECKING_BALANCE'] =  data['CHECKING_BALANCE'].apply(lambda x: 0 if x=='NO_CHECKING' else float(x))
+        data['EXISTING_SAVINGS'] =  data['EXISTING_SAVINGS'].apply(lambda x: 0 if x=='UNKNOWN' else float(x))
+        data['LOAN_AMOUNT_RATE'] =  data['EXISTING_SAVINGS']/data['LOAN_AMOUNT']
+        
         # Retornamos um novo dataframe sem as colunas indesejadas
         return data.drop(labels=self.columns, axis='columns')
 
